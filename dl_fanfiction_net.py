@@ -42,7 +42,7 @@ def print_soup(soup):
         print(paragraph.getText())
 
 def next_chapter_exists(soup):
-    """check if page has a next chapter button"""
+    """Check if page has a Next chapter button"""
     buttons = soup.find_all('button')
     for button in buttons:
         if button.getText() == 'Next >':
@@ -54,7 +54,7 @@ def main():
     chapter = 1
     chapter_exists = True
     while chapter_exists:
-        url = f'{URL}s/7241166/' + str(chapter) + '/Lord-Charming'
+        url = f'{URL}s/7241166/{str(chapter)}/Lord-Charming'
         soup = get_beautifulsoup(url)
         print_soup(soup)
         chapter += 1
