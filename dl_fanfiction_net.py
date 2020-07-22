@@ -8,6 +8,7 @@ Todo:
 import requests
 import urllib3
 import bs4
+import time
 
 URL = 'http://fanfiction.net/'
 
@@ -40,12 +41,25 @@ def print_soup(soup):
     for paragraph in paragraphs:
         print(paragraph.getText())
 
+def next_chapter_exists(soup):
+    """Check if page has a Next chapter button"""
+    buttons = soup.find_all('button')
+    for button in buttons:
+        if button.getText() == 'Next >':
+            return True
+
 def main():
     """Prints first chapter of storyID:7241166."""
     disable_warnings()
-    url = f'{URL}s/7241166/1/Lord-Charming'
-    soup = get_beautifulsoup(url)
-    print_soup(soup)
+    chapter = 1
+    chapter_exists = True
+    while chapter_exists:
+        url = f'{URL}s/7241166/{str(chapter)}/Lord-Charming'
+        soup = get_beautifulsoup(url)
+        print_soup(soup)
+        chapter += 1
+        chapter_exists = next_chapter_exists(soup)
+        time.sleep(1)
 
 if __name__ == "__main__":
     main()
