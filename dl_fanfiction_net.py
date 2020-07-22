@@ -43,7 +43,7 @@ def print_soup(soup):
         print(paragraph.getText())
 
 def next_chapter_exists(soup):
-    """check if page has a next chapter button"""
+    """Check if page has a Next chapter button"""
     buttons = soup.find_all('button')
     for button in buttons:
         if button.getText() == 'Next >':
