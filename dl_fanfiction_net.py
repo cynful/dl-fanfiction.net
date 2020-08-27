@@ -9,6 +9,7 @@ import requests
 import urllib3
 import bs4
 import time
+import argparse
 
 URL = 'http://fanfiction.net/'
 
@@ -48,17 +49,35 @@ def next_chapter_exists(soup):
         if button.getText() == 'Next >':
             return True
 
+def find_storyid(author, title):
+    """Find id number of story using author and title"""
+    author_url = f'{URL}~{author}'
+    try:
+        soup = get_beautifulsoup(author_url)
+        story_div = soup.find('div', {'data-title':title})
+        story_id = story_div['data-storyid']
+        return story_id
+    except:
+        print('Check input.', end='')
+
 def main():
-    """Prints first chapter of storyID:7241166."""
+    """Prints all chapters of story given author's username without spaces and story title."""
     disable_warnings()
+    parser = argparse.ArgumentParser(description='accept story author username without spaces, and story title')
+    parser.add_argument('-author', '--username')
+    parser.add_argument('-story', '--title')
+    args = parser.parse_args()
+    storyID = find_storyid(args.username, args.title)
+    story_url = f'{URL}s/{storyID}'
     chapter = 1
     chapter_exists = True
     while chapter_exists:
-        url = f'{URL}s/7241166/{str(chapter)}/Lord-Charming'
+        url = f'{story_url}/{str(chapter)}/'
         soup = get_beautifulsoup(url)
         print_soup(soup)
         chapter += 1
         chapter_exists = next_chapter_exists(soup)
+        print()
         time.sleep(1)
 
 if __name__ == "__main__":
