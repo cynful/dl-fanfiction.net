@@ -2,13 +2,13 @@
 
 ### how to install
 ```
-$ pipenv install
+$ pipenv install --dev
 ```
 
 ### how to run
 ```
 $ pipenv shell
-$ ./dl_fanfiction_net.py
+$ ./dl_fanfiction_net.py -author username -title story
 ```
 
 ### how to pylint
